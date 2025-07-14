@@ -1,0 +1,997 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Star Commander in RoK: Comprehensive Analysis of the Commander Leveling Formula</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray {
+	color: rgba(115, 114, 110, 1);
+	fill: rgba(115, 114, 110, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(205, 60, 58, 1);
+	fill: rgba(205, 60, 58, 1);
+}
+.highlight-default_background {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.highlight-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(115, 114, 110, 1);
+	fill: rgba(115, 114, 110, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(205, 60, 58, 1);
+	fill: rgba(205, 60, 58, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.block-color-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-default { background-color: rgba(84, 72, 49, 0.08); }
+.select-value-color-gray { background-color: rgba(84, 72, 49, 0.15); }
+.select-value-color-brown { background-color: rgba(210, 162, 141, 0.35); }
+.select-value-color-orange { background-color: rgba(224, 124, 57, 0.27); }
+.select-value-color-yellow { background-color: rgba(236, 191, 66, 0.39); }
+.select-value-color-green { background-color: rgba(123, 183, 129, 0.27); }
+.select-value-color-blue { background-color: rgba(93, 165, 206, 0.27); }
+.select-value-color-purple { background-color: rgba(168, 129, 197, 0.27); }
+.select-value-color-pink { background-color: rgba(225, 136, 179, 0.27); }
+.select-value-color-red { background-color: rgba(244, 171, 159, 0.4); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="23001fb0-5bf1-80f9-afc3-fbd1942318ce" class="page sans"><header><h1 class="page-title">Star Commander in RoK: Comprehensive Analysis of the Commander Leveling Formula</h1><p class="page-description"></p></header><div class="page-body"><h2 id="23001fb0-5bf1-8035-85b2-d029035b6087" class="">1. Introduction</h2><p id="23001fb0-5bf1-8075-87ae-f3e9ea4e3fe8" class="">In RoK, upgrading the &quot;Star Level&quot; of a commander is a crucial factor in determining the player&#x27;s strength. To achieve this, players must use various types of &quot;Star Materials&quot; known as <strong>Star1</strong>, <strong>Star2</strong>, and <strong>Star3</strong> (corresponding to bronze, silver, and gold). However, resources are limited, so optimizing the formula to maximize efficiency is a challenging task.</p><h2 id="23001fb0-5bf1-80d1-9106-f1fe0643036d" class="">2. Issues and Objectives</h2><ul id="23001fb0-5bf1-80bc-9fba-e0fb45a2e9ef" class="bulleted-list"><li style="list-style-type:disc">Each time you upgrade, you can use up to 6 gems.</li></ul><ul id="23001fb0-5bf1-80bc-8f1c-fc6c7678dfa8" class="bulleted-list"><li style="list-style-type:disc">Each type of gem has a base EXP value and a bonus multiplier:<ul id="23001fb0-5bf1-8075-b19c-dad083f1dbee" class="bulleted-list"><li style="list-style-type:circle">Star1: 800 EXP, +5% bonus per gem</li></ul><ul id="23001fb0-5bf1-808c-91fa-f1014ff84151" class="bulleted-list"><li style="list-style-type:circle">Star2: 400 EXP, +20% bonus per piece</li></ul><ul id="23001fb0-5bf1-80d4-9cfa-d6bc3c42ba06" class="bulleted-list"><li style="list-style-type:circle">Star3: 100 EXP, +10% bonus per piece</li></ul></li></ul><ul id="23001fb0-5bf1-80e9-8eea-e4d740f4674e" class="bulleted-list"><li style="list-style-type:disc">The maximum bonus is 100%</li></ul><p id="23001fb0-5bf1-8002-86bc-e0d308d11d8e" class=""><strong>Objective</strong>: Find the best upgrade formula for maximum EXP gain under resource-constrained conditions (especially Star1).</p><h2 id="23001fb0-5bf1-807e-a7fe-f8c38918cb80" class="">3. Formula calculation</h2><p id="23001fb0-5bf1-80fa-9593-cd7036bceb8d" class="">For each formula using x units of Star1, y units of Star2, and z units of Star3:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-8030-b7eb-d303704eee19" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">stars = x + y + z
+base_exp = 800 * x + 400 * y + 100 * z
+bonus = min(1.0, 0.05 * x + 0.20 * y + 0.10 * z)</code></pre><p id="23001fb0-5bf1-803f-8d00-da08394735b7" class="">Explanation for expected_exp:</p><p id="23001fb0-5bf1-8070-ae35-ea2075005251" class="">Initially, you have base EXP. You will receive base EXP x2 if spirit or base EXP</p><p id="23001fb0-5bf1-804d-98b1-c80d4e788970" class="">On average, you will have</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-80fa-9561-f02361391b79" class="code"><code class="language-Python">expected_exp = base_exp * 2 * bonus + base_exp * (1 - bonus)</code></pre><p id="23001fb0-5bf1-80ab-a3fc-c0368ecc81cc" class="">Thus, we have</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-8004-a26e-f34d232150ca" class="code"><code class="language-Python">expected_exp = base_exp * (bonus + 1)</code></pre><h2 id="23001fb0-5bf1-8040-93c9-ec93496583a5" class="">4. Code to calculate and sort the results</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-8083-834a-e7c4b84d493c" class="code"><code class="language-Python">results = []
+
+# Loop through all possible combinations of Star1 (x), Star2 (y), and Star3 (z)
+# such that the total number of stones (x + y + z) ≤ 6
+for x in range(0, 7):
+    for y in range(0, 7 - x):
+        for z in range(0, 7 - x - y):
+            stars = x + y + z
+            base = 800 * x + 400 * y + 100 * z  # Base EXP for each stone type
+            p = min(1.0, 0.05 * x + 0.20 * y + 0.10 * z)  # Bonus rate (capped at 100%)
+            expected = base * (1 + p)  # Expected EXP including bonus
+            results.append((x, y, z, stars, base, p, expected))
+
+# Sort all combinations by expected EXP in descending order
+results.sort(key=lambda x: x[6], reverse=True)
+
+# Print top 20 best formulas
+print(&quot;Top 20 Formulas:&quot;)
+print(&quot;Rank | S1 | S2 | S3 | Stars | Base EXP | Bonus % | Expected EXP | Diff&quot;)
+print(&quot;-&quot; * 85)
+
+prev_exp = results[0][6]  # Store expected EXP of top result to compare drop-off
+for i, (x, y, z, stars, base, p, expected) in enumerate(results, 1):
+    diff = prev_exp - expected
+    print(f&quot;{i:4d} | {x:3d} | {y:3d} | {z:3d} | {stars:5d} | {base:8d} | {p*100:6.1f}% | {expected:11.1f} | {diff:8.1f}&quot;)
+    prev_exp = expected</code></pre><h2 id="23001fb0-5bf1-8063-b9c7-c3a097ede8ee" class="">5. Ranking table for 84 formulas</h2><p id="23001fb0-5bf1-8098-b254-c19888d5de78" class="">The table below lists all possible formulas from 0 to 6, sorted by Expected EXP from highest to lowest:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-80d5-ac75-c8f4049022f2" class="code"><code class="language-Plain Text">Rank | S1  | S2  | S3  | Stars | Base EXP | Bonus % | Expected EXP | Diff
+-------------------------------------------------------------------------------------
+   1 |   4 |   2 |   0 |     6 |     4000 |   60.0% |      6400.0 |      0.0
+   2 |   5 |   1 |   0 |     6 |     4400 |   45.0% |      6380.0 |     20.0
+   3 |   3 |   3 |   0 |     6 |     3600 |   75.0% |      6300.0 |     80.0
+   4 |   6 |   0 |   0 |     6 |     4800 |   30.0% |      6240.0 |     60.0
+   5 |   2 |   4 |   0 |     6 |     3200 |   90.0% |      6080.0 |    160.0
+   6 |   1 |   5 |   0 |     6 |     2800 |  100.0% |      5600.0 |    480.0
+   7 |   4 |   1 |   1 |     6 |     3700 |   50.0% |      5550.0 |     50.0
+   8 |   5 |   0 |   1 |     6 |     4100 |   35.0% |      5535.0 |     15.0
+   9 |   3 |   2 |   1 |     6 |     3300 |   65.0% |      5445.0 |     90.0
+  10 |   2 |   3 |   1 |     6 |     2900 |   80.0% |      5220.0 |    225.0
+  11 |   4 |   1 |   0 |     5 |     3600 |   40.0% |      5040.0 |    180.0
+  12 |   5 |   0 |   0 |     5 |     4000 |   25.0% |      5000.0 |     40.0
+  13 |   3 |   2 |   0 |     5 |     3200 |   55.0% |      4960.0 |     40.0
+  14 |   1 |   4 |   1 |     6 |     2500 |   95.0% |      4875.0 |     85.0
+  15 |   0 |   6 |   0 |     6 |     2400 |  100.0% |      4800.0 |     75.0
+  16 |   2 |   3 |   0 |     5 |     2800 |   70.0% |      4760.0 |     40.0
+  17 |   4 |   0 |   2 |     6 |     3400 |   40.0% |      4760.0 |      0.0
+  18 |   3 |   1 |   2 |     6 |     3000 |   55.0% |      4650.0 |    110.0
+  19 |   1 |   4 |   0 |     5 |     2400 |   85.0% |      4440.0 |    210.0
+  20 |   2 |   2 |   2 |     6 |     2600 |   70.0% |      4420.0 |     20.0
+  21 |   4 |   0 |   1 |     5 |     3300 |   30.0% |      4290.0 |    130.0
+  22 |   3 |   1 |   1 |     5 |     2900 |   45.0% |      4205.0 |     85.0
+  23 |   0 |   5 |   1 |     6 |     2100 |  100.0% |      4200.0 |      5.0
+  24 |   1 |   3 |   2 |     6 |     2200 |   85.0% |      4070.0 |    130.0
+  25 |   0 |   5 |   0 |     5 |     2000 |  100.0% |      4000.0 |     70.0
+  26 |   2 |   2 |   1 |     5 |     2500 |   60.0% |      4000.0 |      0.0
+  27 |   3 |   0 |   3 |     6 |     2700 |   45.0% |      3915.0 |     85.0
+  28 |   4 |   0 |   0 |     4 |     3200 |   20.0% |      3840.0 |     75.0
+  29 |   3 |   1 |   0 |     4 |     2800 |   35.0% |      3780.0 |     60.0
+  30 |   2 |   1 |   3 |     6 |     2300 |   60.0% |      3680.0 |    100.0
+  31 |   1 |   3 |   1 |     5 |     2100 |   75.0% |      3675.0 |      5.0
+  32 |   0 |   4 |   2 |     6 |     1800 |  100.0% |      3600.0 |     75.0
+  33 |   2 |   2 |   0 |     4 |     2400 |   50.0% |      3600.0 |      0.0
+  34 |   3 |   0 |   2 |     5 |     2600 |   35.0% |      3510.0 |     90.0
+  35 |   1 |   2 |   3 |     6 |     1900 |   75.0% |      3325.0 |    185.0 
+  36 |   1 |   3 |   0 |     4 |     2000 |   65.0% |      3300.0 |     25.0
+  37 |   2 |   1 |   2 |     5 |     2200 |   50.0% |      3300.0 |      0.0
+  38 |   0 |   4 |   1 |     5 |     1700 |   90.0% |      3230.0 |     70.0
+  39 |   3 |   0 |   1 |     4 |     2500 |   25.0% |      3125.0 |    105.0
+  40 |   2 |   0 |   4 |     6 |     2000 |   50.0% |      3000.0 |    125.0
+  41 |   1 |   2 |   2 |     5 |     1800 |   65.0% |      2970.0 |     30.0
+  42 |   2 |   1 |   1 |     4 |     2100 |   40.0% |      2940.0 |     30.0
+  43 |   0 |   4 |   0 |     4 |     1600 |   80.0% |      2880.0 |     60.0
+  44 |   0 |   3 |   3 |     6 |     1500 |   90.0% |      2850.0 |     30.0
+  45 |   3 |   0 |   0 |     3 |     2400 |   15.0% |      2760.0 |     90.0
+  46 |   2 |   0 |   3 |     5 |     1900 |   40.0% |      2660.0 |    100.0
+  47 |   1 |   1 |   4 |     6 |     1600 |   65.0% |      2640.0 |     20.0
+  48 |   1 |   2 |   1 |     4 |     1700 |   55.0% |      2635.0 |      5.0
+  49 |   2 |   1 |   0 |     3 |     2000 |   30.0% |      2600.0 |     35.0
+  50 |   0 |   3 |   2 |     5 |     1400 |   80.0% |      2520.0 |     80.0
+  51 |   2 |   0 |   2 |     4 |     1800 |   30.0% |      2340.0 |    180.0
+  52 |   1 |   1 |   3 |     5 |     1500 |   55.0% |      2325.0 |     15.0
+  53 |   1 |   2 |   0 |     3 |     1600 |   45.0% |      2320.0 |      5.0
+  54 |   0 |   3 |   1 |     4 |     1300 |   70.0% |      2210.0 |    110.0
+  55 |   0 |   2 |   4 |     6 |     1200 |   80.0% |      2160.0 |     50.0
+  56 |   2 |   0 |   1 |     3 |     1700 |   20.0% |      2040.0 |    120.0
+  57 |   1 |   1 |   2 |     4 |     1400 |   45.0% |      2030.0 |     10.0
+  58 |   1 |   0 |   5 |     6 |     1300 |   55.0% |      2015.0 |     15.0
+  59 |   0 |   3 |   0 |     3 |     1200 |   60.0% |      1920.0 |     95.0
+  60 |   0 |   2 |   3 |     5 |     1100 |   70.0% |      1870.0 |     50.0
+  61 |   2 |   0 |   0 |     2 |     1600 |   10.0% |      1760.0 |    110.0
+  62 |   1 |   1 |   1 |     3 |     1300 |   35.0% |      1755.0 |      5.0
+  63 |   1 |   0 |   4 |     5 |     1200 |   45.0% |      1740.0 |     15.0
+  64 |   0 |   2 |   2 |     4 |     1000 |   60.0% |      1600.0 |    140.0
+  65 |   0 |   1 |   5 |     6 |      900 |   70.0% |      1530.0 |     70.0
+  66 |   1 |   1 |   0 |     2 |     1200 |   25.0% |      1500.0 |     30.0
+  67 |   1 |   0 |   3 |     4 |     1100 |   35.0% |      1485.0 |     15.0
+  68 |   0 |   2 |   1 |     3 |      900 |   50.0% |      1350.0 |    135.0
+  69 |   0 |   1 |   4 |     5 |      800 |   60.0% |      1280.0 |     70.0
+  70 |   1 |   0 |   2 |     3 |     1000 |   25.0% |      1250.0 |     30.0
+  71 |   0 |   2 |   0 |     2 |      800 |   40.0% |      1120.0 |    130.0
+  72 |   0 |   1 |   3 |     4 |      700 |   50.0% |      1050.0 |     70.0
+  73 |   1 |   0 |   1 |     2 |      900 |   15.0% |      1035.0 |     15.0
+  74 |   0 |   0 |   6 |     6 |      600 |   60.0% |     `960.0` |     75.0
+  75 |   0 |   1 |   2 |     3 |      600 |   40.0% |       840.0 |    120.0
+  76 |   1 |   0 |   0 |     1 |      800 |    5.0% |       840.0 |      0.0
+  77 |   0 |   0 |   5 |     5 |      500 |   50.0% |       750.0 |     90.0
+  78 |   0 |   1 |   1 |     2 |      500 |   30.0% |       650.0 |    100.0
+  79 |   0 |   0 |   4 |     4 |      400 |   40.0% |       560.0 |     90.0
+  80 |   0 |   1 |   0 |     1 |      400 |   20.0% |       480.0 |     80.0
+  81 |   0 |   0 |   3 |     3 |      300 |   30.0% |       390.0 |     90.0
+  82 |   0 |   0 |   2 |     2 |      200 |   20.0% |       240.0 |    150.0
+  83 |   0 |   0 |   1 |     1 |      100 |   10.0% |       110.0 |    130.0
+  84 |   0 |   0 |   0 |     0 |        0 |    0.0% |         0.0 |    110.0</code></pre><h2 id="23001fb0-5bf1-801b-9936-f587e17f3427" class="">6. Analyzing and eliminating poor formulas</h2><p id="23001fb0-5bf1-803e-a214-f7044cd8ff33" class="">We can easily observe that formula 74 is very easy to implement and achieves acceptable performance. Therefore, we remove all formulas below it</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-8025-9698-e1b4603a610c" class="code"><code class="language-JSON">Rank | S1  | S2  | S3  | Stars | Base EXP | Bonus % | Expected EXP | Diff
+-------------------------------------------------------------------------------------
+  74 |   0 |   0 |   6 |     6 |      600 |   60.0% |     `960.0` |     75.0</code></pre><p id="23001fb0-5bf1-80e9-8999-ce7a72260313" class="">Since Stone 3 is easy to obtain, if a formula lacks 6 stones, we can easily add more Stone 3 to gain better EXP and bonuses. Therefore, remove all formulas that do not have 6 stones. We are left with:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-805d-8063-f247993c5c91" class="code"><code class="language-JSON">
+Rank | S1  | S2  | S3  | Stars | Base EXP | Bonus % | Expected EXP | Diff
+-------------------------------------------------------------------------------------
+   1 |   4 |   2 |   0 |     6 |     4000 |   60.0% |      6400.0 |      0.0
+   2 |   5 |   1 |   0 |     6 |     4400 |   45.0% |      6380.0 |     20.0
+   3 |   3 |   3 |   0 |     6 |     3600 |   75.0% |      6300.0 |     80.0
+   4 |   6 |   0 |   0 |     6 |     4800 |   30.0% |      6240.0 |     60.0
+   5 |   2 |   4 |   0 |     6 |     3200 |   90.0% |      6080.0 |    160.0
+   6 |   1 |   5 |   0 |     6 |     2800 |  100.0% |      5600.0 |    480.0
+   7 |   4 |   1 |   1 |     6 |     3700 |   50.0% |      5550.0 |     50.0
+   8 |   5 |   0 |   1 |     6 |     4100 |   35.0% |      5535.0 |     15.0
+   9 |   3 |   2 |   1 |     6 |     3300 |   65.0% |      5445.0 |     90.0
+  10 |   2 |   3 |   1 |     6 |     2900 |   80.0% |      5220.0 |    225.0
+
+  14 |   1 |   4 |   1 |     6 |     2500 |   95.0% |      4875.0 |     85.0
+  15 |   0 |   6 |   0 |     6 |     2400 |  100.0% |      4800.0 |     75.0
+
+  17 |   4 |   0 |   2 |     6 |     3400 |   40.0% |      4760.0 |      0.0
+  18 |   3 |   1 |   2 |     6 |     3000 |   55.0% |      4650.0 |    110.0
+
+  20 |   2 |   2 |   2 |     6 |     2600 |   70.0% |      4420.0 |     20.0
+
+  23 |   0 |   5 |   1 |     6 |     2100 |  100.0% |      4200.0 |      5.0
+  24 |   1 |   3 |   2 |     6 |     2200 |   85.0% |      4070.0 |    130.0
+
+  27 |   3 |   0 |   3 |     6 |     2700 |   45.0% |      3915.0 |     85.0
+
+  30 |   2 |   1 |   3 |     6 |     2300 |   60.0% |      3680.0 |    100.0
+
+  32 |   0 |   4 |   2 |     6 |     1800 |  100.0% |      3600.0 |     75.0
+
+  35 |   1 |   2 |   3 |     6 |     1900 |   75.0% |      3325.0 |    185.0 
+
+  40 |   2 |   0 |   4 |     6 |     2000 |   50.0% |      3000.0 |    125.0
+
+  44 |   0 |   3 |   3 |     6 |     1500 |   90.0% |      2850.0 |     30.0
+
+  47 |   1 |   1 |   4 |     6 |     1600 |   65.0% |      2640.0 |     20.0
+
+  55 |   0 |   2 |   4 |     6 |     1200 |   80.0% |      2160.0 |     50.0
+
+  58 |   1 |   0 |   5 |     6 |     1300 |   55.0% |      2015.0 |     15.0
+
+  65 |   0 |   1 |   5 |     6 |      900 |   70.0% |      1530.0 |     70.0
+
+  74 |   0 |   0 |   6 |     6 |      600 |   60.0% |     `960.0` |     75.0</code></pre><p id="23001fb0-5bf1-80bb-b185-c35b804a0c19" class="">Next, it is clear that we can easily address <code>the 960</code> exp difference if Formula A has a lower expected exp than Formula B by using Formula <code>74</code> with 6 Star3. Therefore, logically, the <code>960</code> exp difference is not significant.</p><p id="23001fb0-5bf1-8036-84de-ecffad58a07a" class="">Thus, among the top 10 formulas, the most efficient formula is the rank <code>5</code> formula.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-803c-8ac9-c942dde379d9" class="code"><code class="language-JSON">Rank | S1  | S2  | S3  | Stars | Base EXP | Bonus % | Expected EXP | Diff
+-------------------------------------------------------------------------------------
+   1 |   4 |   2 |   0 |     6 |     4000 |   60.0% |      6400.0 |      0.0
+   2 |   5 |   1 |   0 |     6 |     4400 |   45.0% |      6380.0 |     20.0
+   3 |   3 |   3 |   0 |     6 |     3600 |   75.0% |      6300.0 |     80.0
+   4 |   6 |   0 |   0 |     6 |     4800 |   30.0% |      6240.0 |     60.0
+   5 |   2 |   4 |   0 |     6 |     3200 |   90.0% |      6080.0 |    160.0
+   6 |   1 |   5 |   0 |     6 |     2800 |  100.0% |      5600.0 |    480.0
+   7 |   4 |   1 |   1 |     6 |     3700 |   50.0% |      5550.0 |     50.0
+   8 |   5 |   0 |   1 |     6 |     4100 |   35.0% |      5535.0 |     15.0
+   9 |   3 |   2 |   1 |     6 |     3300 |   65.0% |      5445.0 |     90.0
+  10 |   2 |   3 |   1 |     6 |     2900 |   80.0% |      5220.0 |    225.0</code></pre><p id="23001fb0-5bf1-801a-8b7d-edc08820eb6f" class="">Because it only requires 2 Star1, which is very cost-effective, along with a bit of effort with 4 Star2 to earn over 6000 exp while the bonus also reaches 90%.</p><p id="23001fb0-5bf1-80ac-8caf-d8417daf7692" class="">Therefore, if Star1 is entirely dedicated to this rank <code>5</code> formula, we can eliminate formulas that use Star1. So we are left with</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-80a0-b4c5-d74ee3bb15a2" class="code"><code class="language-JSON">Rank | S1  | S2  | S3  | Stars | Base EXP | Bonus % | Expected EXP | Diff
+-------------------------------------------------------------------------------------
+   5 |   2 |   4 |   0 |     6 |     3200 |   90.0% |      6080.0 |      0.0
+
+  15 |   0 |   6 |   0 |     6 |     2400 |  100.0% |      4800.0 |    280.0
+
+  23 |   0 |   5 |   1 |     6 |     2100 |  100.0% |      4200.0 |    600.0
+
+  32 |   0 |   4 |   2 |     6 |     1800 |  100.0% |      3600.0 |    600.0
+
+  44 |   0 |   3 |   3 |     6 |     1500 |   90.0% |      2850.0 |    750.0
+
+  55 |   0 |   2 |   4 |     6 |     1200 |   80.0% |      2160.0 |    690.0
+
+  65 |   0 |   1 |   5 |     6 |      900 |   70.0% |      1530.0 |    630.0
+
+  74 |   0 |   0 |   6 |     6 |      600 |   60.0% |     `960.0` |    570.0</code></pre><p id="23001fb0-5bf1-802b-ac09-ce232a5e8b48" class="">Now, we can easily conclude that formula <code>5</code> provides the most efficient use of Star1. We will now address the issue of efficiently using Star3, as Star3 is easier to find and available in much larger quantities.</p><p id="23001fb0-5bf1-8014-a4ea-ecff67e77505" class="">The remaining formulas (in yellow) give us an observation: If we allocate too many Star2, the exp is high, with formula <code>32</code> showing the greatest exp difference: adding one Star2 results in a <code>750</code> exp difference compared to formula <code>44</code>.</p><p id="23001fb0-5bf1-8039-8d8c-d92994c29866" class="">However, you may notice that with 4 Star2, using the <code>55</code> formula twice results in a higher total expected exp than the <code>33</code> formula while focusing on using Star3. Observe the following three formulas:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-80d5-b597-cce725983d83" class="code"><code class="language-JSON">Rank | S1  | S2  | S3  | Stars | Base EXP | Bonus % | Expected EXP | Diff
+-------------------------------------------------------------------------------------
+  32 |   0 |   4 |   2 |     6 |     1800 |  100.0% |      3600.0 |      0.0
+
+  55 |   0 |   2 |   4 |     6 |     1200 |   80.0% |      2160.0 |   1440.0
+
+  65 |   0 |   1 |   5 |     6 |      900 |   70.0% |      1530.0 |    630.0
+
+  74 |   0 |   0 |   6 |     6 |      600 |   60.0% |     `960.0` |    570.0</code></pre><p id="23001fb0-5bf1-80f5-96f0-d960b5a3b704" class="">Imagine: you use the <code>55</code> formula twice instead of the <code>32</code> formula. Or you use the <code>65</code> formula four times instead of the <code>32</code> formula. You will have significantly higher expected exp while only spending a few more Star3.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-8063-86e4-c83d3983f80c" class="code"><code class="language-JSON">2160.0 x 2 = 4320.0
+1530.0 x 4 = 6120.0 ⭐</code></pre><p id="23001fb0-5bf1-80bb-92fb-c411cf03135b" class="">It&#x27;s amazing—the <code>65</code> formula yields a very high expected exp while requiring more Star3 spending.</p><h3 id="23001fb0-5bf1-80d2-8b31-d738d312d593" class="">Highly rated formulas:</h3><ol type="1" id="23001fb0-5bf1-8027-8230-fe1c77fe05f6" class="numbered-list" start="1"><li><strong>Effective Star1 formula: (2 Star1 + 4 Star2)</strong>: 3200 base + 90% bonus = 6080 EXP ✔</li></ol><ol type="1" id="23001fb0-5bf1-8053-8cc7-f3c19ebb340f" class="numbered-list" start="2"><li><strong>Star3 unlock formula: (1 Star2 + 5 Star3)</strong>: 900 base + 70% bonus = 1530 EXP ✔</li></ol><ol type="1" id="23001fb0-5bf1-8038-871b-d44926e76ad1" class="numbered-list" start="3"><li><strong>Fix formula: (0 Star1 + 0 Star2 + 6 Star3)</strong>: 600 base + 60% bonus = 960 EXP ✔</li></ol><p id="23001fb0-5bf1-8036-af43-d894d7cc778b" class="">
+</p><h2 id="23001fb0-5bf1-8086-aa49-ff86c70e53c8" class="">7. Conclusion</h2><p id="23001fb0-5bf1-80a3-ba2f-d460f7d5caf9" class="">In practice, as you accumulate Star1 and Star2, the number of Star3 will naturally increase significantly. Therefore, always keep 4 Star2 to wait for 2 Star1 to appear. The remaining Star2 can be happily combined with each 5 Star3 using the <code>65</code> formula.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-8059-b946-c3718028c3e6" class="code"><code class="language-JSON">Rank | S1  | S2  | S3  | Stars | Base EXP | Bonus % | Expected EXP |
+-------------------------------------------------------------------------------------
+⭐ 5 |   2 |   4 |   0 |     6 |     3200 |   90.0% |      6080.0 |
+⭐65 |   0 |   1 |   5 |     6 |      900 |   70.0% |      1530.0 |</code></pre><h2 id="23001fb0-5bf1-8089-9680-c1478dfd27fd" class="">8. Appendix</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23001fb0-5bf1-80e5-a293-e5b25d2c31fe" class="code"><code class="language-Bash">Rank | S1  | S2  | S3  | Stars | Base EXP | Bonus % | Expected EXP | Diff
+-------------------------------------------------------------------------------------
+   1 |   4 |   2 |   0 |     6 |     4000 |   60.0% |      6400.0 |      0.0
+   2 |   5 |   1 |   0 |     6 |     4400 |   45.0% |      6380.0 |     20.0
+   3 |   3 |   3 |   0 |     6 |     3600 |   75.0% |      6300.0 |     80.0
+   4 |   6 |   0 |   0 |     6 |     4800 |   30.0% |      6240.0 |     60.0 # Using 6 Star1 is not the best formula
+⭐ 5 |   2 |   4 |   0 |     6 |     3200 |   90.0% |      6080.0 |    160.0 # 👉 Best formula when using 2 or more Star1 ➜ If using Star3, Star1 count must be zero
+   6 |   1 |   5 |   0 |     6 |     2800 |  100.0% |      5600.0 |    480.0  # Possibly the best — use Star1 twice, then convert Star2 into Star3
+   7 |   4 |   1 |   1 |     6 |     3700 |   50.0% |      5550.0 |     50.0
+   8 |   5 |   0 |   1 |     6 |     4100 |   35.0% |      5535.0 |     15.0
+   9 |   3 |   2 |   1 |     6 |     3300 |   65.0% |      5445.0 |     90.0
+  10 |   2 |   3 |   1 |     6 |     2900 |   80.0% |      5220.0 |    225.0 # For example, just adding one more Star2 gives you +800 expected EXP
+
+  11 |   4 |   1 |   0 |     5 |     3600 |   40.0% |      5040.0 |    180.0
+  12 |   5 |   0 |   0 |     5 |     4000 |   25.0% |      5000.0 |     40.0
+  13 |   3 |   2 |   0 |     5 |     3200 |   55.0% |      4960.0 |     40.0
+
+  14 |   1 |   4 |   1 |     6 |     2500 |   95.0% |      4875.0 |     85.0
+  15 |   0 |   6 |   0 |     6 |     2400 |  100.0% |      4800.0 |     75.0
+
+  16 |   2 |   3 |   0 |     5 |     2800 |   70.0% |      4760.0 |     40.0
+
+  17 |   4 |   0 |   2 |     6 |     3400 |   40.0% |      4760.0 |      0.0
+  18 |   3 |   1 |   2 |     6 |     3000 |   55.0% |      4650.0 |    110.0
+
+  19 |   1 |   4 |   0 |     5 |     2400 |   85.0% |      4440.0 |    210.0
+
+  20 |   2 |   2 |   2 |     6 |     2600 |   70.0% |      4420.0 |     20.0 # In this case, adding just one more Star2 would yield +800 expected EXP
+
+  21 |   4 |   0 |   1 |     5 |     3300 |   30.0% |      4290.0 |    130.0
+  22 |   3 |   1 |   1 |     5 |     2900 |   45.0% |      4205.0 |     85.0
+
+  23 |   0 |   5 |   1 |     6 |     2100 |  100.0% |      4200.0 |      5.0
+  24 |   1 |   3 |   2 |     6 |     2200 |   85.0% |      4070.0 |    130.0
+
+  25 |   0 |   5 |   0 |     5 |     2000 |  100.0% |      4000.0 |     70.0
+  26 |   2 |   2 |   1 |     5 |     2500 |   60.0% |      4000.0 |      0.0
+
+  27 |   3 |   0 |   3 |     6 |     2700 |   45.0% |      3915.0 |     85.0
+
+  28 |   4 |   0 |   0 |     4 |     3200 |   20.0% |      3840.0 |     75.0
+  29 |   3 |   1 |   0 |     4 |     2800 |   35.0% |      3780.0 |     60.0
+
+  30 |   2 |   1 |   3 |     6 |     2300 |   60.0% |      3680.0 |    100.0 # This formula is not good enough — one Star1 only adds ~300 EXP compared to the adjusted ones below
+
+  31 |   1 |   3 |   1 |     5 |     2100 |   75.0% |      3675.0 |      5.0
+
+  32 |   0 |   4 |   2 |     6 |     1800 |  100.0% |      3600.0 |     75.0 # From this point onward, each additional Star2 only gives ~600 EXP, lower than the ones below
+
+  33 |   2 |   2 |   0 |     4 |     2400 |   50.0% |      3600.0 |      0.0
+  34 |   3 |   0 |   2 |     5 |     2600 |   35.0% |      3510.0 |     90.0
+
+  35 |   1 |   2 |   3 |     6 |     1900 |   75.0% |      3325.0 |    185.0 
+
+  36 |   1 |   3 |   0 |     4 |     2000 |   65.0% |      3300.0 |     25.0
+  37 |   2 |   1 |   2 |     5 |     2200 |   50.0% |      3300.0 |      0.0
+  38 |   0 |   4 |   1 |     5 |     1700 |   90.0% |      3230.0 |     70.0
+  39 |   3 |   0 |   1 |     4 |     2500 |   25.0% |      3125.0 |    105.0
+
+  40 |   2 |   0 |   4 |     6 |     2000 |   50.0% |      3000.0 |    125.0
+
+  41 |   1 |   2 |   2 |     5 |     1800 |   65.0% |      2970.0 |     30.0
+  42 |   2 |   1 |   1 |     4 |     2100 |   40.0% |      2940.0 |     30.0
+  43 |   0 |   4 |   0 |     4 |     1600 |   80.0% |      2880.0 |     60.0
+
+  44 |   0 |   3 |   3 |     6 |     1500 |   90.0% |      2850.0 |     30.0
+
+  45 |   3 |   0 |   0 |     3 |     2400 |   15.0% |      2760.0 |     90.0
+  46 |   2 |   0 |   3 |     5 |     1900 |   40.0% |      2660.0 |    100.0
+
+  47 |   1 |   1 |   4 |     6 |     1600 |   65.0% |      2640.0 |     20.0
+
+  48 |   1 |   2 |   1 |     4 |     1700 |   55.0% |      2635.0 |      5.0
+  49 |   2 |   1 |   0 |     3 |     2000 |   30.0% |      2600.0 |     35.0
+  50 |   0 |   3 |   2 |     5 |     1400 |   80.0% |      2520.0 |     80.0
+  51 |   2 |   0 |   2 |     4 |     1800 |   30.0% |      2340.0 |    180.0
+  52 |   1 |   1 |   3 |     5 |     1500 |   55.0% |      2325.0 |     15.0
+  53 |   1 |   2 |   0 |     3 |     1600 |   45.0% |      2320.0 |      5.0
+  54 |   0 |   3 |   1 |     4 |     1300 |   70.0% |      2210.0 |    110.0
+
+  55 |   0 |   2 |   4 |     6 |     1200 |   80.0% |      2160.0 |     50.0
+
+  56 |   2 |   0 |   1 |     3 |     1700 |   20.0% |      2040.0 |    120.0
+  57 |   1 |   1 |   2 |     4 |     1400 |   45.0% |      2030.0 |     10.0
+
+  58 |   1 |   0 |   5 |     6 |     1300 |   55.0% |      2015.0 |     15.0
+
+  59 |   0 |   3 |   0 |     3 |     1200 |   60.0% |      1920.0 |     95.0
+  60 |   0 |   2 |   3 |     5 |     1100 |   70.0% |      1870.0 |     50.0
+  61 |   2 |   0 |   0 |     2 |     1600 |   10.0% |      1760.0 |    110.0
+  62 |   1 |   1 |   1 |     3 |     1300 |   35.0% |      1755.0 |      5.0
+  63 |   1 |   0 |   4 |     5 |     1200 |   45.0% |      1740.0 |     15.0
+  64 |   0 |   2 |   2 |     4 |     1000 |   60.0% |      1600.0 |    140.0
+
+⭐65 |   0 |   1 |   5 |     6 |      900 |   70.0% |      1530.0 |     70.0 # Spam this formula to clear out Star3
+  
+  66 |   1 |   1 |   0 |     2 |     1200 |   25.0% |      1500.0 |     30.0
+  67 |   1 |   0 |   3 |     4 |     1100 |   35.0% |      1485.0 |     15.0
+  68 |   0 |   2 |   1 |     3 |      900 |   50.0% |      1350.0 |    135.0
+  69 |   0 |   1 |   4 |     5 |      800 |   60.0% |      1280.0 |     70.0
+  70 |   1 |   0 |   2 |     3 |     1000 |   25.0% |      1250.0 |     30.0
+  71 |   0 |   2 |   0 |     2 |      800 |   40.0% |      1120.0 |    130.0
+  72 |   0 |   1 |   3 |     4 |      700 |   50.0% |      1050.0 |     70.0
+  73 |   1 |   0 |   1 |     2 |      900 |   15.0% |      1035.0 |     15.0
+# This shows that we can safely achieve `960` EXP using 6 Star3. Therefore, we group formulas whose expected EXP difference is within `960`.
+# Any formula using fewer than 6 materials will be discarded, because we&#x27;re willing to add more Star3 to gain extra EXP.
+  74 |   0 |   0 |   6 |     6 |      600 |   60.0% |     `960.0` |     75.0
+
+  75 |   0 |   1 |   2 |     3 |      600 |   40.0% |       840.0 |    120.0
+  76 |   1 |   0 |   0 |     1 |      800 |    5.0% |       840.0 |      0.0
+  77 |   0 |   0 |   5 |     5 |      500 |   50.0% |       750.0 |     90.0
+  78 |   0 |   1 |   1 |     2 |      500 |   30.0% |       650.0 |    100.0
+  79 |   0 |   0 |   4 |     4 |      400 |   40.0% |       560.0 |     90.0
+  80 |   0 |   1 |   0 |     1 |      400 |   20.0% |       480.0 |     80.0
+  81 |   0 |   0 |   3 |     3 |      300 |   30.0% |       390.0 |     90.0
+  82 |   0 |   0 |   2 |     2 |      200 |   20.0% |       240.0 |    150.0
+  83 |   0 |   0 |   1 |     1 |      100 |   10.0% |       110.0 |    130.0
+  84 |   0 |   0 |   0 |     0 |        0 |    0.0% |         0.0 |    110.0</code></pre><p id="23001fb0-5bf1-80a8-b42c-c88981ba3fa1" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
